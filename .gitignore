@@ -1,0 +1,27 @@
+# Large datasets (>50MB) excluded to avoid GitHub push rejection
+dataset/raw/*.csv
+dataset/processed/*.csv
+Market_Basket_Analysis/dataset/raw/*.csv
+Market_Basket_Analysis/dataset/processed/*.csv
+Online_Retail_enlarged.md
+DataSet.csv
+*.csv.gz
+
+# Python & Environment
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.env
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# System & IDE files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
