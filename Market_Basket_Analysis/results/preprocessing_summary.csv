@@ -1,0 +1,7 @@
+Step,Before,Removed,After,Pct
+Remove missing CustomerID,1041909,263308,778601,25.27
+Remove missing Description,778601,0,778601,0.0
+Remove duplicates,778601,5225,773376,0.67
+Remove cancelled (C-prefix),773376,17239,756137,2.23
+Remove Quantity <= 0,756137,0,756137,0.0
+Remove UnitPrice <= 0,756137,40,756097,0.01
