@@ -1,0 +1,5 @@
+Support,min_support,Apriori Time (s),FP-Growth Time (s),Speedup,Itemsets,Apriori Status,FP-Growth Status
+0.05 (5%),0.05,0.09,1.15,0.08x (overhead),10,Completed,Completed
+0.02 (2%),0.02,1.51,1.84,0.82x,184,Completed,Completed
+0.01 (1%),0.01,72.82,4.07,17.9x faster,712,Completed,Completed
+0.005 (0.5%),0.005,,5.62,Infinite (Apriori OOM),2175,Failed (MemoryError >59GB),Completed in 5.62s
