@@ -1,0 +1,5 @@
+Algorithm,min_support,execution_time_sec,total_itemsets,1_itemsets,2_itemsets,3_itemsets,status
+FP-Growth,0.05,1.15,10,10,0,0,Completed
+FP-Growth,0.02,1.84,184,184,0,0,Completed
+FP-Growth,0.01,4.07,712,630,81,1,Completed
+FP-Growth,0.005,5.62,2175,1340,731,101,Completed
