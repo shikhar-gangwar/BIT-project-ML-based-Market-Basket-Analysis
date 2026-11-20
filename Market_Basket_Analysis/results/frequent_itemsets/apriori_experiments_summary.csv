@@ -1,0 +1,5 @@
+Experiment,min_support,execution_time_sec,total_itemsets,1_itemsets,2_itemsets,3_itemsets,status
+1,0.05,0.09s,10,10,0,0,Completed (No multi-item itemsets)
+2,0.02,1.51s,184,184,0,0,Completed (No multi-item itemsets)
+3,0.01,72.82s,712,630,81,1,Optimal (Meaningful & computationally feasible)
+4,0.005,N/A (Failed),N/A,N/A,N/A,N/A,"MemoryError (Required 59.1 GiB RAM for 897,130 candidates)"
