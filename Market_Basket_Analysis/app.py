@@ -121,8 +121,71 @@ sidebar_style = """
     [data-testid="stSidebar"] {
         background-color: #000000 !important;
         border-right: 1px solid rgba(255, 255, 255, 0.09) !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    [data-testid="stSidebar"][aria-expanded="true"] {
         width: 300px !important;
         min-width: 300px !important;
+    }
+
+    [data-testid="stSidebar"][aria-expanded="false"] {
+        width: 0 !important;
+        min-width: 0 !important;
+        border-right: none !important;
+    }
+
+    /* Expand / Collapse Button Smooth Accessibility */
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="stExpandSidebarButton"],
+    [data-testid="stSidebarCollapsedControl"] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 100000 !important;
+    }
+
+    /* Pinned Expand Control when collapsed */
+    [data-testid="stExpandSidebarButton"],
+    [data-testid="stSidebarCollapsedControl"] {
+        position: fixed !important;
+        top: 0.75rem !important;
+        left: 0.75rem !important;
+    }
+
+    [data-testid="stExpandSidebarButton"] button,
+    [data-testid="stSidebarCollapsedControl"] button {
+        background: #000000 !important;
+        border: 1px solid rgba(255, 255, 255, 0.22) !important;
+        border-radius: 9px !important;
+        color: #60A5FA !important;
+        padding: 0.35rem 0.55rem !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7) !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+    }
+
+    [data-testid="stExpandSidebarButton"] button:hover,
+    [data-testid="stSidebarCollapsedControl"] button:hover {
+        background: #111827 !important;
+        border-color: #3B82F6 !important;
+        color: #FFFFFF !important;
+        transform: scale(1.08) !important;
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4) !important;
+    }
+
+    [data-testid="stSidebarCollapseButton"] button {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 8px !important;
+        color: #94A3B8 !important;
+        transition: all 0.2s ease !important;
+    }
+
+    [data-testid="stSidebarCollapseButton"] button:hover {
+        background: #1E293B !important;
+        color: #FFFFFF !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
     }
 
     [data-testid="stSidebar"] > div:first-child {
