@@ -115,174 +115,143 @@ def mine_rules(algo, min_sup, min_conf):
     return frequent_itemsets, rules
 
 # --- Sidebar Navigation State & Dynamic Styling ---
-sidebar_style = """
+if "sidebar_collapsed" not in st.session_state:
+    st.session_state["sidebar_collapsed"] = False
+
+is_collapsed = st.session_state["sidebar_collapsed"]
+
+def toggle_sidebar():
+    st.session_state["sidebar_collapsed"] = not st.session_state.get("sidebar_collapsed", False)
+
+# Sidebar Design System CSS (Pure Black Theme, Collapsible Icon Rail, Accessible Controls)
+sidebar_style = f"""
 <style>
     /* Global Sidebar Container - Deep Solid Black Theme */
-    [data-testid="stSidebar"] {
+    [data-testid="stSidebar"] {{
         background-color: #000000 !important;
         border-right: 1px solid rgba(255, 255, 255, 0.09) !important;
+        width: {'78px' if is_collapsed else '295px'} !important;
+        min-width: {'78px' if is_collapsed else '295px'} !important;
+        max-width: {'78px' if is_collapsed else '295px'} !important;
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
+        overflow-x: {'visible' if is_collapsed else 'hidden'} !important;
+    }}
 
-    [data-testid="stSidebar"][aria-expanded="true"] {
-        width: 300px !important;
-        min-width: 300px !important;
-    }
-
-    [data-testid="stSidebar"][aria-expanded="false"] {
-        width: 0 !important;
-        min-width: 0 !important;
-        border-right: none !important;
-    }
-
-    /* Expand / Collapse Button Smooth Accessibility */
-    [data-testid="stSidebarCollapseButton"],
-    [data-testid="stExpandSidebarButton"],
-    [data-testid="stSidebarCollapsedControl"] {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        z-index: 100000 !important;
-    }
-
-    /* Pinned Expand Control when collapsed */
-    [data-testid="stExpandSidebarButton"],
-    [data-testid="stSidebarCollapsedControl"] {
-        position: fixed !important;
-        top: 0.75rem !important;
-        left: 0.75rem !important;
-    }
-
-    [data-testid="stExpandSidebarButton"] button,
-    [data-testid="stSidebarCollapsedControl"] button {
-        background: #000000 !important;
-        border: 1px solid rgba(255, 255, 255, 0.22) !important;
-        border-radius: 9px !important;
-        color: #60A5FA !important;
-        padding: 0.35rem 0.55rem !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7) !important;
-        cursor: pointer !important;
-        transition: all 0.2s ease !important;
-    }
-
-    [data-testid="stExpandSidebarButton"] button:hover,
-    [data-testid="stSidebarCollapsedControl"] button:hover {
-        background: #111827 !important;
-        border-color: #3B82F6 !important;
-        color: #FFFFFF !important;
-        transform: scale(1.08) !important;
-        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4) !important;
-    }
-
-    [data-testid="stSidebarCollapseButton"] button {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-radius: 8px !important;
-        color: #94A3B8 !important;
-        transition: all 0.2s ease !important;
-    }
-
-    [data-testid="stSidebarCollapseButton"] button:hover {
-        background: #1E293B !important;
-        color: #FFFFFF !important;
-        border-color: rgba(255, 255, 255, 0.25) !important;
-    }
-
-    [data-testid="stSidebar"] > div:first-child {
+    [data-testid="stSidebar"] > div:first-child {{
         background-color: #000000 !important;
-        padding: 1.25rem 1.1rem 1.8rem 1.1rem !important;
-    }
+        padding: 1.15rem {'0.45rem' if is_collapsed else '1.1rem'} 1.6rem {'0.45rem' if is_collapsed else '1.1rem'} !important;
+        overflow-x: {'visible' if is_collapsed else 'hidden'} !important;
+    }}
 
-    /* Top Window Dots (macOS style matching reference image) */
-    .sidebar-window-dots {
+    /* Prioritize our Accessible Icon Rail over Streamlit Native Full Hide */
+    [data-testid="stSidebarCollapseButton"] {{
+        display: none !important;
+    }}
+
+    /* Top Window Dots (macOS style) */
+    .sidebar-window-dots {{
         display: flex;
-        gap: 7px;
+        gap: 6px;
         align-items: center;
-        margin-bottom: 1.1rem;
-        padding-left: 0.35rem;
-    }
-    .window-dot {
-        width: 10px;
-        height: 10px;
+        justify-content: {'center' if is_collapsed else 'flex-start'};
+        margin-bottom: 1rem;
+        padding-left: {'0' if is_collapsed else '0.35rem'};
+    }}
+    .window-dot {{
+        width: 9px;
+        height: 9px;
         border-radius: 50%;
         display: inline-block;
-    }
-    .window-dot-red { background: #EF4444; }
-    .window-dot-yellow { background: #F59E0B; }
-    .window-dot-green { background: #10B981; }
+    }}
+    .window-dot-red {{ background: #EF4444; }}
+    .window-dot-yellow {{ background: #F59E0B; }}
+    .window-dot-green {{ background: #10B981; }}
 
     /* Brand Header Banner */
-    .sidebar-brand-wrapper {
+    .sidebar-brand-wrapper {{
         display: flex;
         align-items: center;
         gap: 0.85rem;
-        padding: 0.35rem 0.25rem 0.5rem 0.25rem;
-    }
+        padding: 0.25rem 0.25rem 0.4rem 0.25rem;
+    }}
 
-    .sidebar-brand-icon-box {
+    .sidebar-brand-wrapper-collapsed {{
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 44px;
-        height: 44px;
+        margin-bottom: 0.6rem;
+    }}
+
+    .sidebar-brand-icon-box {{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: {'40px' if is_collapsed else '42px'};
+        height: {'40px' if is_collapsed else '42px'};
         border-radius: 12px;
         background: linear-gradient(135deg, rgba(59, 130, 246, 0.28) 0%, rgba(37, 99, 235, 0.15) 100%);
         border: 1px solid rgba(96, 165, 250, 0.4);
         flex-shrink: 0;
         box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
-    }
+    }}
 
-    .sidebar-brand-info {
+    .sidebar-brand-info {{
         display: flex;
         flex-direction: column;
-    }
+    }}
 
-    .sidebar-brand-title {
-        font-size: 1.08rem;
+    .sidebar-brand-title {{
+        font-size: 1.05rem;
         font-weight: 700;
         line-height: 1.2;
         color: #FFFFFF;
         letter-spacing: -0.015em;
-    }
+    }}
 
-    .sidebar-brand-subtitle {
-        font-size: 0.72rem;
+    .sidebar-brand-subtitle {{
+        font-size: 0.70rem;
         font-weight: 500;
         color: #94A3B8;
-        margin-top: 0.2rem;
+        margin-top: 0.15rem;
         letter-spacing: 0.03em;
         text-transform: uppercase;
-    }
+    }}
 
     /* Subtle Dividers */
-    .sidebar-nav-divider {
+    .sidebar-nav-divider {{
         height: 1px;
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 100%);
-        margin: 1.1rem 0 1rem 0;
-    }
+        margin: 0.95rem 0 0.85rem 0;
+    }}
+
+    .sidebar-nav-divider-collapsed {{
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 0.75rem 0.25rem;
+    }}
 
     /* Section Label */
-    .sidebar-nav-section-title {
-        font-size: 0.70rem;
+    .sidebar-nav-section-title {{
+        font-size: 0.68rem;
         font-weight: 700;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: #64748B;
         padding-left: 0.4rem;
-        margin-bottom: 0.75rem;
-    }
+        margin-bottom: 0.65rem;
+    }}
 
     /* Radio Group Reset & Container Styling */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > label {
+    [data-testid="stSidebar"] [data-testid="stRadio"] > label {{
         display: none !important;
-    }
+    }}
 
     [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"],
-    [data-testid="stSidebar"] [data-testid="stRadioGroup"] {
+    [data-testid="stSidebar"] [data-testid="stRadioGroup"] {{
         display: flex !important;
         flex-direction: column !important;
-        gap: 0.60rem !important;
-    }
+        gap: {'0.50rem' if is_collapsed else '0.55rem'} !important;
+    }}
 
     /* Completely Eliminate Radio Bullet Circle Across All Streamlit Versions */
     [data-testid="stSidebar"] [data-testid="stRadioOption"] > div > div:first-child,
@@ -291,7 +260,7 @@ sidebar_style = """
     [data-testid="stSidebar"] [data-testid="stRadio"] input[type="radio"],
     [data-testid="stSidebar"] [data-testid="stRadioOption"] svg,
     [data-testid="stSidebar"] [data-baseweb="radio"] > div:first-child,
-    [data-testid="stSidebar"] [data-baseweb="radio"] input {
+    [data-testid="stSidebar"] [data-baseweb="radio"] input {{
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -300,170 +269,189 @@ sidebar_style = """
         margin: 0 !important;
         padding: 0 !important;
         border: none !important;
-    }
+    }}
 
-    /* Navigation Item Card (Full width, featurable interactive module) */
+    /* Navigation Item Card (Both Expanded and Collapsed Rail) */
     [data-testid="stSidebar"] [data-testid="stRadioOption"],
-    [data-testid="stSidebar"] [data-baseweb="radio"] {
+    [data-testid="stSidebar"] [data-baseweb="radio"] {{
         background: #0A0A0A !important;
         border: 1px solid rgba(255, 255, 255, 0.07) !important;
-        border-radius: 12px !important;
-        padding: 0.85rem 1.15rem !important;
+        border-radius: 11px !important;
+        padding: {'0.65rem 0' if is_collapsed else '0.78rem 1.05rem'} !important;
         margin: 0 !important;
         width: 100% !important;
         box-sizing: border-box !important;
         cursor: pointer !important;
         display: flex !important;
         align-items: center !important;
+        justify-content: {'center' if is_collapsed else 'flex-start'} !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
+    }}
 
     [data-testid="stSidebar"] [data-testid="stRadioOption"]:hover,
-    [data-testid="stSidebar"] [data-baseweb="radio"]:hover {
+    [data-testid="stSidebar"] [data-baseweb="radio"]:hover {{
         background: #141414 !important;
-        border-color: rgba(255, 255, 255, 0.18) !important;
-        transform: translateX(3px) !important;
-    }
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        transform: {'scale(1.08)' if is_collapsed else 'translateX(3px)'} !important;
+    }}
 
     /* Active / Selected Navigation Card */
     [data-testid="stSidebar"] [data-testid="stRadioOption"]:has(input:checked),
     [data-testid="stSidebar"] [data-testid="stRadioGroup"] > div:has(input:checked),
     [data-testid="stSidebar"] [data-testid="stRadioOption"][data-selected="true"],
-    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) {
-        background: linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, rgba(30, 58, 138, 0.15) 100%) !important;
+    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) {{
+        background: {'rgba(37, 99, 235, 0.28)' if is_collapsed else 'linear-gradient(90deg, rgba(37, 99, 235, 0.25) 0%, rgba(30, 58, 138, 0.15) 100%)'} !important;
         border: 1px solid rgba(96, 165, 250, 0.45) !important;
-        border-left: 4px solid #3B82F6 !important;
+        {'border-left: 4px solid #3B82F6 !important;' if not is_collapsed else ''}
         box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25) !important;
-    }
+    }}
 
-    /* Enlarged Icons & Spaced Label Typography */
+    /* Navigation Item Typography & Icon Styling */
     [data-testid="stSidebar"] [data-testid="stRadioOption"] p,
-    [data-testid="stSidebar"] [data-baseweb="radio"] p {
+    [data-testid="stSidebar"] [data-baseweb="radio"] p {{
         color: #94A3B8 !important;
-        font-size: 0.98rem !important;
+        font-size: {'1.55rem' if is_collapsed else '0.96rem'} !important;
         font-weight: 500 !important;
         margin: 0 !important;
-        display: block !important;
+        display: {'flex' if is_collapsed else 'block'} !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: {'center' if is_collapsed else 'left'} !important;
         letter-spacing: 0.01em !important;
-        line-height: 1.4 !important;
+        line-height: 1.3 !important;
         white-space: nowrap !important;
         transition: color 0.18s ease !important;
-    }
+    }}
 
-    /* Enlarge the leading emoji icon and give generous spacing */
-    [data-testid="stSidebar"] [data-testid="stRadioOption"] p::first-letter,
-    [data-testid="stSidebar"] [data-baseweb="radio"] p::first-letter {
-        font-size: 1.65rem !important;
-        line-height: 1 !important;
-        vertical-align: -0.15rem !important;
-        margin-right: 0.65rem !important;
-    }
+    /* Enlarge the leading emoji icon and give generous spacing in expanded state */
+    {'[data-testid="stSidebar"] [data-testid="stRadioOption"] p::first-letter, [data-testid="stSidebar"] [data-baseweb="radio"] p::first-letter { font-size: 1.65rem !important; line-height: 1 !important; vertical-align: -0.15rem !important; margin-right: 0.65rem !important; }' if not is_collapsed else ''}
 
     [data-testid="stSidebar"] [data-testid="stRadioOption"]:hover p,
-    [data-testid="stSidebar"] [data-baseweb="radio"]:hover p {
+    [data-testid="stSidebar"] [data-baseweb="radio"]:hover p {{
         color: #F8FAFC !important;
-    }
+    }}
 
     [data-testid="stSidebar"] [data-testid="stRadioOption"]:has(input:checked) p,
-    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) p {
+    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) p {{
         color: #FFFFFF !important;
         font-weight: 600 !important;
-    }
+    }}
 
-    /* Featurable Action Buttons (Clear, Purposeful, Non-Random) */
-    [data-testid="stSidebar"] div.stButton button {
+    /* Hover Tooltip Popover in Collapsed Rail Mode */
+    {'[data-testid="stSidebar"] [data-testid="stRadioGroup"] > div { position: relative !important; overflow: visible !important; }' if is_collapsed else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadioGroup"] > div:hover::after { position: absolute; left: calc(100% + 14px); top: 50%; transform: translateY(-50%); background: #0f172a; color: #F8FAFC; padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600; white-space: nowrap; box-shadow: 0 10px 25px rgba(0,0,0,0.7), 0 2px 6px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.18); z-index: 999999; pointer-events: none; letter-spacing: 0.015em; }' if is_collapsed else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadioGroup"] > div:hover::before { content: ""; position: absolute; left: calc(100% + 6px); top: 50%; transform: translateY(-50%); border-width: 6px 8px 6px 0; border-style: solid; border-color: transparent #0f172a transparent transparent; z-index: 999999; pointer-events: none; }' if is_collapsed else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadioGroup"] > div:nth-child(1):hover::after { content: "Dashboard / Overview"; }' if is_collapsed else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadioGroup"] > div:nth-child(2):hover::after { content: "Dataset Upload"; }' if is_collapsed else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadioGroup"] > div:nth-child(3):hover::after { content: "Data Preprocessing"; }' if is_collapsed else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadioGroup"] > div:nth-child(4):hover::after { content: "Exploratory Data Analysis"; }' if is_collapsed else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadioGroup"] > div:nth-child(5):hover::after { content: "Association Rule Mining"; }' if is_collapsed else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadioGroup"] > div:nth-child(6):hover::after { content: "Algorithm Comparison"; }' if is_collapsed else ''}
+
+    /* Featurable Action & Toggle Buttons */
+    [data-testid="stSidebar"] div.stButton button {{
         width: 100% !important;
         background: #111111 !important;
         border: 1px solid rgba(255, 255, 255, 0.12) !important;
         border-radius: 9px !important;
         color: #E2E8F0 !important;
-        font-size: 0.82rem !important;
+        font-size: {'0.90rem' if is_collapsed else '0.82rem'} !important;
         font-weight: 600 !important;
-        padding: 0.55rem 0.85rem !important;
+        padding: {'0.45rem 0' if is_collapsed else '0.52rem 0.85rem'} !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 0.5rem !important;
+        gap: 0.45rem !important;
         cursor: pointer !important;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
-    }
+    }}
 
-    [data-testid="stSidebar"] div.stButton button:hover {
+    [data-testid="stSidebar"] div.stButton button:hover {{
         background: #1E293B !important;
         border-color: #3B82F6 !important;
         color: #60A5FA !important;
         transform: translateY(-1px) !important;
         box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
-    }
+    }}
 
     /* Status Box on Deep Black */
-    .sidebar-footer-box {
-        margin-top: 1.8rem;
-        padding: 1rem 1.1rem;
+    .sidebar-footer-box {{
+        margin-top: 1.6rem;
+        padding: 0.95rem 1rem;
         border-radius: 12px;
         background: #080808;
         border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-    }
+    }}
 
-    .sidebar-footer-header {
+    .sidebar-footer-header {{
         font-size: 0.68rem;
         font-weight: 700;
         letter-spacing: 0.09em;
         text-transform: uppercase;
         color: #64748B;
         margin-bottom: 0.65rem;
-    }
+    }}
 
-    .sidebar-footer-metrics {
+    .sidebar-footer-metrics {{
         display: flex;
         flex-direction: column;
         gap: 0.35rem;
         margin-bottom: 0.75rem;
-    }
+    }}
 
-    .sidebar-metric-row {
+    .sidebar-metric-row {{
         display: flex;
         justify-content: space-between;
-        font-size: 0.78rem;
+        font-size: 0.76rem;
         color: #94A3B8;
-    }
+    }}
 
-    .metric-val {
+    .metric-val {{
         font-weight: 700;
         color: #F8FAFC;
-    }
+    }}
 
-    .sidebar-footer-tag {
+    .sidebar-footer-tag {{
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
         background: rgba(16, 185, 129, 0.12);
         color: #10B981;
         border: 1px solid rgba(16, 185, 129, 0.3);
-        padding: 0.25rem 0.65rem;
+        padding: 0.22rem 0.60rem;
         border-radius: 9999px;
-        font-size: 0.72rem;
+        font-size: 0.70rem;
         font-weight: 600;
-        margin-bottom: 0.85rem;
-    }
+        margin-bottom: 0.75rem;
+    }}
 
-    .status-pulse-dot {
-        width: 8px;
-        height: 8px;
+    .sidebar-footer-collapsed {{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1.8rem;
+        gap: 0.8rem;
+        cursor: pointer;
+    }}
+
+    .status-pulse-dot {{
+        width: 9px;
+        height: 9px;
         border-radius: 50%;
         background: #10B981;
         display: inline-block;
         box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
         animation: pulseGreen 2s infinite;
-    }
+    }}
 
-    @keyframes pulseGreen {
-        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-        70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-    }
+    @keyframes pulseGreen {{
+        0% {{ box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }}
+        70% {{ box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }}
+        100% {{ box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }}
+    }}
 </style>
 """
 st.sidebar.markdown(sidebar_style, unsafe_allow_html=True)
@@ -477,24 +465,49 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Clean, Full-Width Brand Header (No random or ghost buttons)
-st.sidebar.markdown("""
-<div class="sidebar-brand-wrapper">
-    <div class="sidebar-brand-icon-box">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-            <path d="M3 6h18"></path>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
+# Brand Header & Controls
+if not is_collapsed:
+    # Expanded Header
+    h_col1, h_col2 = st.sidebar.columns([4.2, 1])
+    with h_col1:
+        st.markdown("""
+        <div class="sidebar-brand-wrapper">
+            <div class="sidebar-brand-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <path d="M3 6h18"></path>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+            </div>
+            <div class="sidebar-brand-info">
+                <div class="sidebar-brand-title">Market Basket Analysis</div>
+                <div class="sidebar-brand-subtitle">Retail Analytics Studio</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    with h_col2:
+        st.button("⟨", key="btn_collapse_icon", on_click=toggle_sidebar, help="Collapse to Icon Rail")
+    
+    st.sidebar.markdown("""
+    <div class="sidebar-nav-divider"></div>
+    <div class="sidebar-nav-section-title">Navigation Modules</div>
+    """, unsafe_allow_html=True)
+
+else:
+    # Collapsed Icon Rail Header
+    st.sidebar.markdown("""
+    <div class="sidebar-brand-wrapper-collapsed">
+        <div class="sidebar-brand-icon-box" title="Market Basket Analysis — Retail Analytics Studio">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                <path d="M3 6h18"></path>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+        </div>
     </div>
-    <div class="sidebar-brand-info">
-        <div class="sidebar-brand-title">Market Basket Analysis</div>
-        <div class="sidebar-brand-subtitle">Retail Analytics Studio</div>
-    </div>
-</div>
-<div class="sidebar-nav-divider"></div>
-<div class="sidebar-nav-section-title">Navigation Modules</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+    st.sidebar.button("›", key="btn_expand_rail", on_click=toggle_sidebar, help="Expand Sidebar Navigation")
+    st.sidebar.markdown("""<div class="sidebar-nav-divider-collapsed"></div>""", unsafe_allow_html=True)
 
 # Navigation Destination List
 NAV_PAGES = [
@@ -515,38 +528,62 @@ NAV_ICONS = {
     "Algorithm Comparison": "⚡"
 }
 
-page = st.sidebar.radio(
-    "Navigation",
-    NAV_PAGES,
-    format_func=lambda x: f"{NAV_ICONS.get(x, '')}\u2003\u2002{x}",
-    label_visibility="collapsed"
-)
+if not is_collapsed:
+    page = st.sidebar.radio(
+        "Navigation",
+        NAV_PAGES,
+        format_func=lambda x: f"{NAV_ICONS.get(x, '')}\u2003\u2002{x}",
+        label_visibility="collapsed"
+    )
+    # Quick rail collapse helper button
+    st.sidebar.button("◀ Collapse Sidebar Rail", key="btn_collapse_footer", on_click=toggle_sidebar, help="Collapse to compact icon rail")
+else:
+    # In collapsed mode: Icons are fully visible and clickable in the rail!
+    page = st.sidebar.radio(
+        "Navigation",
+        NAV_PAGES,
+        format_func=lambda x: NAV_ICONS.get(x, ''),
+        label_visibility="collapsed"
+    )
 
-# Bottom Data Engine Status Card with Featurable Action Button
-st.sidebar.markdown("""
-<div class="sidebar-footer-box">
-    <div class="sidebar-footer-header">DATA ENGINE STATUS</div>
-    <div class="sidebar-footer-metrics">
-        <div class="sidebar-metric-row">
-            <span class="metric-label">Raw Records:</span>
-            <span class="metric-val">1,041,909</span>
+# Bottom Data Engine Status Card
+if not is_collapsed:
+    st.sidebar.markdown("""
+    <div class="sidebar-footer-box">
+        <div class="sidebar-footer-header">DATA ENGINE STATUS</div>
+        <div class="sidebar-footer-metrics">
+            <div class="sidebar-metric-row">
+                <span class="metric-label">Raw Records:</span>
+                <span class="metric-val">1,041,909</span>
+            </div>
+            <div class="sidebar-metric-row">
+                <span class="metric-label">Cleaned Records:</span>
+                <span class="metric-val">756,097</span>
+            </div>
         </div>
-        <div class="sidebar-metric-row">
-            <span class="metric-label">Cleaned Records:</span>
-            <span class="metric-val">756,097</span>
+        <div class="sidebar-footer-tag">
+            <span class="status-pulse-dot"></span> Online &amp; Ready
         </div>
     </div>
-    <div class="sidebar-footer-tag">
-        <span class="status-pulse-dot"></span> Online &amp; Ready
-    </div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+    
+    # Featurable Button: Clear cache & reload data engine
+    if st.sidebar.button("⚡ Reload Data Engine", key="btn_reload_data_engine", help="Clear transaction cache and re-index dataset from disk"):
+        st.cache_data.clear()
+        st.toast("Data Engine cache reloaded successfully!", icon="🚀")
+        st.rerun()
 
-# Featurable Button: Real functional purpose (Clear cache & reload data engine)
-if st.sidebar.button("⚡ Reload Data Engine", key="btn_reload_data_engine", help="Clear transaction cache and re-index dataset from disk"):
-    st.cache_data.clear()
-    st.toast("Data Engine cache reloaded successfully!", icon="🚀")
-    st.rerun()
+else:
+    # Compact Pulse Indicator & Mini Action in Icon Rail
+    st.sidebar.markdown("""
+    <div class="sidebar-footer-collapsed" title="Status: Online & Ready (1,041,909 raw • 756,097 clean records)">
+        <span class="status-pulse-dot"></span>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.sidebar.button("⚡", key="btn_reload_mini", help="Reload Data Engine"):
+        st.cache_data.clear()
+        st.toast("Data Engine cache reloaded successfully!", icon="🚀")
+        st.rerun()
 
 # ==============================================================================
 # DASHBOARD / OVERVIEW
