@@ -45,6 +45,171 @@ st.markdown("""
         font-size: 0.85rem;
         font-weight: 600;
     }
+
+    /* =========================================================================
+       POLISHED SIDEBAR DESIGN SYSTEM (DARK THEME & COMPACT HIERARCHY)
+       ========================================================================= */
+    [data-testid="stSidebar"] {
+        background-color: #0F172A !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    [data-testid="stSidebar"] > div:first-child {
+        padding-top: 1.25rem !important;
+        padding-left: 0.85rem !important;
+        padding-right: 0.85rem !important;
+    }
+
+    /* Branded Header */
+    .sidebar-brand-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.4rem 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .sidebar-brand-icon-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(37, 99, 235, 0.12) 100%);
+        border: 1px solid rgba(96, 165, 250, 0.35);
+        flex-shrink: 0;
+        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.4);
+    }
+
+    .sidebar-brand-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-brand-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        line-height: 1.25;
+        color: #F8FAFC;
+        letter-spacing: -0.015em;
+    }
+
+    .sidebar-brand-subtitle {
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: #94A3B8;
+        margin-top: 0.15rem;
+        letter-spacing: 0.02em;
+    }
+
+    /* Subtle Divider */
+    .sidebar-nav-divider {
+        height: 1px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
+        margin: 0.85rem 0 1rem 0;
+    }
+
+    /* Navigation Section Header */
+    .sidebar-nav-section-title {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #64748B;
+        padding-left: 0.5rem;
+        margin-bottom: 0.6rem;
+    }
+
+    /* Streamlit Radio Button Container */
+    [data-testid="stSidebar"] [data-testid="stRadio"] > label {
+        display: none !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    /* Hide standard circular radio inputs */
+    [data-testid="stSidebar"] [data-baseweb="radio"] > div:first-child {
+        display: none !important;
+    }
+
+    /* Full-width Menu Item Navigation Styling */
+    [data-testid="stSidebar"] [data-baseweb="radio"] {
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        border-radius: 8px !important;
+        padding: 0.55rem 0.85rem !important;
+        margin: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        cursor: pointer !important;
+        transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    [data-testid="stSidebar"] [data-baseweb="radio"] p {
+        color: #94A3B8 !important;
+        font-size: 0.90rem !important;
+        font-weight: 500 !important;
+        margin: 0 !important;
+        letter-spacing: 0.01em !important;
+        transition: color 0.18s ease !important;
+    }
+
+    /* Inactive Item Hover State */
+    [data-testid="stSidebar"] [data-baseweb="radio"]:hover {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    [data-testid="stSidebar"] [data-baseweb="radio"]:hover p {
+        color: #F1F5F9 !important;
+    }
+
+    /* Active Page Selected State */
+    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) {
+        background: linear-gradient(90deg, rgba(37, 99, 235, 0.22) 0%, rgba(30, 58, 138, 0.12) 100%) !important;
+        border: 1px solid rgba(96, 165, 250, 0.35) !important;
+        border-left: 3.5px solid #3B82F6 !important;
+        box-shadow: 0 2px 10px rgba(37, 99, 235, 0.15) !important;
+    }
+
+    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) p {
+        color: #FFFFFF !important;
+        font-weight: 600 !important;
+    }
+
+    /* Sidebar Footer Status Card */
+    .sidebar-footer-box {
+        margin-top: 2.2rem;
+        padding: 0.85rem 1rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .sidebar-footer-text {
+        font-size: 0.73rem;
+        color: #64748B;
+        line-height: 1.5;
+    }
+
+    .sidebar-footer-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        background: rgba(16, 185, 129, 0.12);
+        color: #10B981;
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        padding: 0.15rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        margin-top: 0.45rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -113,20 +278,61 @@ def mine_rules(algo, min_sup, min_conf):
     
     return frequent_itemsets, rules
 
-# --- Sidebar Navigation ---
-st.sidebar.title("🛒 Market Basket Analysis")
-st.sidebar.markdown("---")
+# --- Sidebar Branded Header & Navigation ---
+st.sidebar.markdown("""
+<div class="sidebar-brand-wrapper">
+    <div class="sidebar-brand-icon-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+            <path d="M3 6h18"></path>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+    </div>
+    <div class="sidebar-brand-info">
+        <div class="sidebar-brand-title">Market Basket<br/>Analysis</div>
+        <div class="sidebar-brand-subtitle">Retail Analytics Studio</div>
+    </div>
+</div>
+<div class="sidebar-nav-divider"></div>
+<div class="sidebar-nav-section-title">Navigation Modules</div>
+""", unsafe_allow_html=True)
+
+NAV_PAGES = [
+    "Dashboard / Overview",
+    "Dataset Upload",
+    "Data Preprocessing",
+    "Exploratory Data Analysis",
+    "Association Rule Mining",
+    "Algorithm Comparison"
+]
+
+NAV_LABELS = {
+    "Dashboard / Overview": "📊  Dashboard / Overview",
+    "Dataset Upload": "📂  Dataset Upload",
+    "Data Preprocessing": "⚙️  Data Preprocessing",
+    "Exploratory Data Analysis": "📈  Exploratory Data Analysis",
+    "Association Rule Mining": "🔍  Association Rule Mining",
+    "Algorithm Comparison": "⚡  Algorithm Comparison"
+}
+
 page = st.sidebar.radio(
-    "Navigation:",
-    [
-        "Dashboard / Overview",
-        "Dataset Upload",
-        "Data Preprocessing",
-        "Exploratory Data Analysis",
-        "Association Rule Mining",
-        "Algorithm Comparison"
-    ]
+    "Navigation Selection",
+    NAV_PAGES,
+    format_func=lambda x: NAV_LABELS.get(x, x),
+    label_visibility="collapsed"
 )
+
+st.sidebar.markdown("""
+<div class="sidebar-footer-box">
+    <div class="sidebar-footer-text">
+        <strong>Data Engine Status</strong><br/>
+        1,041,909 raw records • 756,097 clean
+    </div>
+    <div class="sidebar-footer-tag">
+        <span>●</span> Online & Ready
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ==============================================================================
 # DASHBOARD / OVERVIEW
