@@ -46,170 +46,6 @@ st.markdown("""
         font-weight: 600;
     }
 
-    /* =========================================================================
-       POLISHED SIDEBAR DESIGN SYSTEM (DARK THEME & COMPACT HIERARCHY)
-       ========================================================================= */
-    [data-testid="stSidebar"] {
-        background-color: #0F172A !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-    }
-
-    [data-testid="stSidebar"] > div:first-child {
-        padding-top: 1.25rem !important;
-        padding-left: 0.85rem !important;
-        padding-right: 0.85rem !important;
-    }
-
-    /* Branded Header */
-    .sidebar-brand-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.4rem 0.5rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .sidebar-brand-icon-box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(37, 99, 235, 0.12) 100%);
-        border: 1px solid rgba(96, 165, 250, 0.35);
-        flex-shrink: 0;
-        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.4);
-    }
-
-    .sidebar-brand-info {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .sidebar-brand-title {
-        font-size: 1.05rem;
-        font-weight: 700;
-        line-height: 1.25;
-        color: #F8FAFC;
-        letter-spacing: -0.015em;
-    }
-
-    .sidebar-brand-subtitle {
-        font-size: 0.72rem;
-        font-weight: 500;
-        color: #94A3B8;
-        margin-top: 0.15rem;
-        letter-spacing: 0.02em;
-    }
-
-    /* Subtle Divider */
-    .sidebar-nav-divider {
-        height: 1px;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
-        margin: 0.85rem 0 1rem 0;
-    }
-
-    /* Navigation Section Header */
-    .sidebar-nav-section-title {
-        font-size: 0.7rem;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: #64748B;
-        padding-left: 0.5rem;
-        margin-bottom: 0.6rem;
-    }
-
-    /* Streamlit Radio Button Container */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > label {
-        display: none !important;
-    }
-
-    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] {
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem;
-    }
-
-    /* Hide standard circular radio inputs */
-    [data-testid="stSidebar"] [data-baseweb="radio"] > div:first-child {
-        display: none !important;
-    }
-
-    /* Full-width Menu Item Navigation Styling */
-    [data-testid="stSidebar"] [data-baseweb="radio"] {
-        background: transparent !important;
-        border: 1px solid transparent !important;
-        border-radius: 8px !important;
-        padding: 0.55rem 0.85rem !important;
-        margin: 0 !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        cursor: pointer !important;
-        transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-
-    [data-testid="stSidebar"] [data-baseweb="radio"] p {
-        color: #94A3B8 !important;
-        font-size: 0.90rem !important;
-        font-weight: 500 !important;
-        margin: 0 !important;
-        letter-spacing: 0.01em !important;
-        transition: color 0.18s ease !important;
-    }
-
-    /* Inactive Item Hover State */
-    [data-testid="stSidebar"] [data-baseweb="radio"]:hover {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border-color: rgba(255, 255, 255, 0.08) !important;
-    }
-
-    [data-testid="stSidebar"] [data-baseweb="radio"]:hover p {
-        color: #F1F5F9 !important;
-    }
-
-    /* Active Page Selected State */
-    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) {
-        background: linear-gradient(90deg, rgba(37, 99, 235, 0.22) 0%, rgba(30, 58, 138, 0.12) 100%) !important;
-        border: 1px solid rgba(96, 165, 250, 0.35) !important;
-        border-left: 3.5px solid #3B82F6 !important;
-        box-shadow: 0 2px 10px rgba(37, 99, 235, 0.15) !important;
-    }
-
-    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) p {
-        color: #FFFFFF !important;
-        font-weight: 600 !important;
-    }
-
-    /* Sidebar Footer Status Card */
-    .sidebar-footer-box {
-        margin-top: 2.2rem;
-        padding: 0.85rem 1rem;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .sidebar-footer-text {
-        font-size: 0.73rem;
-        color: #64748B;
-        line-height: 1.5;
-    }
-
-    .sidebar-footer-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        background: rgba(16, 185, 129, 0.12);
-        color: #10B981;
-        border: 1px solid rgba(16, 185, 129, 0.25);
-        padding: 0.15rem 0.5rem;
-        border-radius: 9999px;
-        font-size: 0.68rem;
-        font-weight: 600;
-        margin-top: 0.45rem;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -278,25 +114,365 @@ def mine_rules(algo, min_sup, min_conf):
     
     return frequent_itemsets, rules
 
-# --- Sidebar Branded Header & Navigation ---
+# --- Sidebar Navigation State & Dynamic Styling ---
+if "sidebar_expanded" not in st.session_state:
+    st.session_state["sidebar_expanded"] = True
+
+is_expanded = st.session_state["sidebar_expanded"]
+
+def toggle_sidebar():
+    st.session_state["sidebar_expanded"] = not st.session_state.get("sidebar_expanded", True)
+
+# Sidebar Design System CSS (Matching Reference Image)
+sidebar_style = f"""
+<style>
+    /* Global Sidebar Container */
+    [data-testid="stSidebar"] {{
+        background-color: #0F172A !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        width: {'285px' if is_expanded else '78px'} !important;
+        min-width: {'285px' if is_expanded else '78px'} !important;
+        max-width: {'285px' if is_expanded else '78px'} !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        overflow-x: {'visible' if not is_expanded else 'hidden'} !important;
+    }}
+
+    [data-testid="stSidebar"] > div:first-child {{
+        padding: 1.1rem {'1rem' if is_expanded else '0.45rem'} 1.5rem {'1rem' if is_expanded else '0.45rem'} !important;
+        overflow-x: {'visible' if not is_expanded else 'hidden'} !important;
+    }}
+
+    /* Hide Native Streamlit Sidebar Collapse Controls to use our Floating Custom Toggle */
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="stSidebarCollapsedControl"] {{
+        display: none !important;
+    }}
+
+    /* Top Window Dots (macOS style matching reference image) */
+    .sidebar-window-dots {{
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-left: {'0.25rem' if is_expanded else '0.75rem'};
+    }}
+    .window-dot {{
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        display: inline-block;
+    }}
+    .window-dot-red {{ background: #EF4444; }}
+    .window-dot-yellow {{ background: #F59E0B; }}
+    .window-dot-green {{ background: #10B981; }}
+
+    /* Brand Header */
+    .sidebar-brand-wrapper {{
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }}
+
+    .sidebar-brand-wrapper-collapsed {{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.6rem;
+    }}
+
+    .sidebar-brand-icon-box {{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(37, 99, 235, 0.12) 100%);
+        border: 1px solid rgba(96, 165, 250, 0.35);
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }}
+
+    .sidebar-brand-info {{
+        display: flex;
+        flex-direction: column;
+    }}
+
+    .sidebar-brand-title {{
+        font-size: 1.02rem;
+        font-weight: 700;
+        line-height: 1.22;
+        color: #F8FAFC;
+        letter-spacing: -0.015em;
+    }}
+
+    .sidebar-brand-subtitle {{
+        font-size: 0.70rem;
+        font-weight: 500;
+        color: #94A3B8;
+        margin-top: 0.15rem;
+        letter-spacing: 0.02em;
+    }}
+
+    /* Subtle Dividers */
+    .sidebar-nav-divider {{
+        height: 1px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
+        margin: 0.85rem 0 0.95rem 0;
+    }}
+
+    .sidebar-nav-divider-collapsed {{
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 0.75rem 0.5rem;
+    }}
+
+    /* Section Label */
+    .sidebar-nav-section-title {{
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #64748B;
+        padding-left: 0.4rem;
+        margin-bottom: 0.65rem;
+    }}
+
+    /* Circular Floating Toggle Button (matching reference image) */
+    [data-testid="stSidebar"] div.stButton button {{
+        width: 30px !important;
+        height: 30px !important;
+        min-height: 30px !important;
+        max-height: 30px !important;
+        min-width: 30px !important;
+        max-width: 30px !important;
+        border-radius: 50% !important;
+        background: #1E293B !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        color: #94A3B8 !important;
+        font-size: 1.15rem !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        line-height: 0 !important;
+        margin: 0 auto !important;
+    }}
+
+    [data-testid="stSidebar"] div.stButton button:hover {{
+        background: #3B82F6 !important;
+        color: #FFFFFF !important;
+        border-color: #60A5FA !important;
+        transform: scale(1.1) !important;
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.5) !important;
+    }}
+
+    /* Radio Group Reset */
+    [data-testid="stSidebar"] [data-testid="stRadio"] > label {{
+        display: none !important;
+    }}
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] {{
+        display: flex;
+        flex-direction: column;
+        gap: {'0.35rem' if is_expanded else '0.5rem'};
+    }}
+
+    [data-testid="stSidebar"] [data-baseweb="radio"] > div:first-child {{
+        display: none !important;
+    }}
+
+    /* Menu Items (Expanded vs Collapsed) */
+    [data-testid="stSidebar"] [data-baseweb="radio"] {{
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        border-radius: 10px !important;
+        padding: {'0.58rem 0.85rem' if is_expanded else '0.62rem 0'} !important;
+        margin: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        cursor: pointer !important;
+        justify-content: {'flex-start' if is_expanded else 'center'} !important;
+        transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }}
+
+    [data-testid="stSidebar"] [data-baseweb="radio"] p {{
+        color: #94A3B8 !important;
+        font-size: {'0.90rem' if is_expanded else '1.30rem'} !important;
+        font-weight: 500 !important;
+        margin: 0 !important;
+        text-align: {'left' if is_expanded else 'center'} !important;
+        letter-spacing: 0.01em !important;
+        transition: color 0.18s ease, transform 0.18s ease !important;
+    }}
+
+    [data-testid="stSidebar"] [data-baseweb="radio"]:hover {{
+        background: rgba(255, 255, 255, 0.06) !important;
+        border-color: rgba(255, 255, 255, 0.09) !important;
+    }}
+
+    [data-testid="stSidebar"] [data-baseweb="radio"]:hover p {{
+        color: #F1F5F9 !important;
+        {'transform: scale(1.12);' if not is_expanded else ''}
+    }}
+
+    /* Active Menu Item Selection */
+    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) {{
+        background: {'linear-gradient(90deg, rgba(37, 99, 235, 0.24) 0%, rgba(30, 58, 138, 0.14) 100%)' if is_expanded else 'rgba(37, 99, 235, 0.28)'} !important;
+        border: 1px solid rgba(96, 165, 250, 0.4) !important;
+        {'border-left: 3.5px solid #3B82F6 !important;' if is_expanded else ''}
+        box-shadow: 0 2px 10px rgba(37, 99, 235, 0.18) !important;
+    }}
+
+    [data-testid="stSidebar"] [data-baseweb="radio"]:has(input:checked) p {{
+        color: #FFFFFF !important;
+        font-weight: 600 !important;
+    }}
+
+    /* Collapsed Rail Tooltip Popovers on Hover (Matching Reference Image) */
+    {'[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label { position: relative !important; overflow: visible !important; }' if not is_expanded else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover::after { position: absolute; left: calc(100% + 14px); top: 50%; transform: translateY(-50%); background: #1E293B; color: #F8FAFC; padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.80rem; font-weight: 600; white-space: nowrap; box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.15); z-index: 999999; pointer-events: none; letter-spacing: 0.015em; }' if not is_expanded else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:hover::before { content: ""; position: absolute; left: calc(100% + 6px); top: 50%; transform: translateY(-50%); border-width: 6px 8px 6px 0; border-style: solid; border-color: transparent #1E293B transparent transparent; z-index: 999999; pointer-events: none; }' if not is_expanded else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:nth-child(1):hover::after { content: "Dashboard / Overview"; }' if not is_expanded else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:nth-child(2):hover::after { content: "Dataset Upload"; }' if not is_expanded else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:nth-child(3):hover::after { content: "Data Preprocessing"; }' if not is_expanded else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:nth-child(4):hover::after { content: "Exploratory Data Analysis"; }' if not is_expanded else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:nth-child(5):hover::after { content: "Association Rule Mining"; }' if not is_expanded else ''}
+    {'[data-testid="stSidebar"] [data-testid="stRadio"] div[role="radiogroup"] > label:nth-child(6):hover::after { content: "Algorithm Comparison"; }' if not is_expanded else ''}
+
+    /* Status Card Styling */
+    .sidebar-footer-box {{
+        margin-top: 2rem;
+        padding: 0.85rem 1rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+    }}
+
+    .sidebar-footer-header {{
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #64748B;
+        margin-bottom: 0.5rem;
+    }}
+
+    .sidebar-footer-metrics {{
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-bottom: 0.55rem;
+    }}
+
+    .sidebar-metric-row {{
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.74rem;
+        color: #94A3B8;
+    }}
+
+    .metric-val {{
+        font-weight: 600;
+        color: #F1F5F9;
+    }}
+
+    .sidebar-footer-tag {{
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(16, 185, 129, 0.12);
+        color: #10B981;
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        padding: 0.18rem 0.55rem;
+        border-radius: 9999px;
+        font-size: 0.68rem;
+        font-weight: 600;
+    }}
+
+    .sidebar-footer-collapsed {{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2.5rem;
+        cursor: pointer;
+    }}
+
+    .status-pulse-dot {{
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #10B981;
+        display: inline-block;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        animation: pulseGreen 2s infinite;
+    }}
+
+    @keyframes pulseGreen {{
+        0% {{ box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }}
+        70% {{ box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }}
+        100% {{ box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }}
+    }}
+</style>
+"""
+st.sidebar.markdown(sidebar_style, unsafe_allow_html=True)
+
+# Top Window Decorative Dots
 st.sidebar.markdown("""
-<div class="sidebar-brand-wrapper">
-    <div class="sidebar-brand-icon-box">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-            <path d="M3 6h18"></path>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
-    </div>
-    <div class="sidebar-brand-info">
-        <div class="sidebar-brand-title">Market Basket<br/>Analysis</div>
-        <div class="sidebar-brand-subtitle">Retail Analytics Studio</div>
-    </div>
+<div class="sidebar-window-dots">
+    <span class="window-dot window-dot-red"></span>
+    <span class="window-dot window-dot-yellow"></span>
+    <span class="window-dot window-dot-green"></span>
 </div>
-<div class="sidebar-nav-divider"></div>
-<div class="sidebar-nav-section-title">Navigation Modules</div>
 """, unsafe_allow_html=True)
 
+# Header & Toggle Row
+if is_expanded:
+    h_col1, h_col2 = st.sidebar.columns([4.2, 1])
+    with h_col1:
+        st.markdown("""
+        <div class="sidebar-brand-wrapper">
+            <div class="sidebar-brand-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <path d="M3 6h18"></path>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+            </div>
+            <div class="sidebar-brand-info">
+                <div class="sidebar-brand-title">Market Basket<br/>Analysis</div>
+                <div class="sidebar-brand-subtitle">Retail Analytics Studio</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    with h_col2:
+        st.button("‹", key="sidebar_toggle_collapse", on_click=toggle_sidebar, help="Collapse to Icon Rail")
+    
+    st.sidebar.markdown("""
+    <div class="sidebar-nav-divider"></div>
+    <div class="sidebar-nav-section-title">Navigation Modules</div>
+    """, unsafe_allow_html=True)
+
+else:
+    st.sidebar.markdown("""
+    <div class="sidebar-brand-wrapper-collapsed">
+        <div class="sidebar-brand-icon-box" title="Market Basket Analysis — Retail Analytics Studio">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                <path d="M3 6h18"></path>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.sidebar.button("›", key="sidebar_toggle_expand", on_click=toggle_sidebar, help="Expand Sidebar Navigation")
+    st.sidebar.markdown("""<div class="sidebar-nav-divider-collapsed"></div>""", unsafe_allow_html=True)
+
+# Navigation Destination List
 NAV_PAGES = [
     "Dashboard / Overview",
     "Dataset Upload",
@@ -306,33 +482,56 @@ NAV_PAGES = [
     "Algorithm Comparison"
 ]
 
-NAV_LABELS = {
-    "Dashboard / Overview": "📊  Dashboard / Overview",
-    "Dataset Upload": "📂  Dataset Upload",
-    "Data Preprocessing": "⚙️  Data Preprocessing",
-    "Exploratory Data Analysis": "📈  Exploratory Data Analysis",
-    "Association Rule Mining": "🔍  Association Rule Mining",
-    "Algorithm Comparison": "⚡  Algorithm Comparison"
+NAV_ICONS = {
+    "Dashboard / Overview": "📊",
+    "Dataset Upload": "📂",
+    "Data Preprocessing": "⚙️",
+    "Exploratory Data Analysis": "📈",
+    "Association Rule Mining": "🔍",
+    "Algorithm Comparison": "⚡"
 }
 
-page = st.sidebar.radio(
-    "Navigation Selection",
-    NAV_PAGES,
-    format_func=lambda x: NAV_LABELS.get(x, x),
-    label_visibility="collapsed"
-)
+if is_expanded:
+    page = st.sidebar.radio(
+        "Navigation",
+        NAV_PAGES,
+        format_func=lambda x: f"{NAV_ICONS.get(x, '')}   {x}",
+        label_visibility="collapsed"
+    )
+else:
+    page = st.sidebar.radio(
+        "Navigation",
+        NAV_PAGES,
+        format_func=lambda x: NAV_ICONS.get(x, ''),
+        label_visibility="collapsed"
+    )
 
-st.sidebar.markdown("""
-<div class="sidebar-footer-box">
-    <div class="sidebar-footer-text">
-        <strong>Data Engine Status</strong><br/>
-        1,041,909 raw records • 756,097 clean
+# Bottom Status Card
+if is_expanded:
+    st.sidebar.markdown("""
+    <div class="sidebar-footer-box">
+        <div class="sidebar-footer-header">DATA ENGINE STATUS</div>
+        <div class="sidebar-footer-metrics">
+            <div class="sidebar-metric-row">
+                <span class="metric-label">Raw Records:</span>
+                <span class="metric-val">1,041,909</span>
+            </div>
+            <div class="sidebar-metric-row">
+                <span class="metric-label">Cleaned Records:</span>
+                <span class="metric-val">756,097</span>
+            </div>
+        </div>
+        <div class="sidebar-footer-tag">
+            <span class="status-pulse-dot"></span> Online &amp; Ready
+        </div>
     </div>
-    <div class="sidebar-footer-tag">
-        <span>●</span> Online & Ready
+    """, unsafe_allow_html=True)
+else:
+    st.sidebar.markdown("""
+    <div class="sidebar-footer-collapsed" title="Status: Online & Ready (1,041,909 raw • 756,097 clean)">
+        <span class="status-pulse-dot"></span>
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 # ==============================================================================
 # DASHBOARD / OVERVIEW
