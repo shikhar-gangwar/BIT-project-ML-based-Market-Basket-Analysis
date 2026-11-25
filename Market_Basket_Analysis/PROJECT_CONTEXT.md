@@ -1,212 +1,238 @@
-# ML-Based Market Basket Analysis: Architecture, Algorithmic Foundations & System Context
+# BIT Project: ML-Based Market Basket Analysis & Affinity Mining Platform
+## Comprehensive Architecture, Algorithmic Foundations & System Context Whitepaper
 
 ---
 
-## 1. Project Motivation & Business Context
+## 1. Project Overview & Institutional Metadata
 
-In the modern retail ecosystem—spanning both omni-channel brick-and-mortar storefronts and high-throughput e-commerce platforms—understanding **consumer purchasing behavior** is the single highest leverage point for revenue optimization. 
-
-When consumers shop, their purchase choices are not independent events. Instead, transactions reflect complex decision-making processes governed by complementary utility, household needs, culinary recipes, aesthetic coordination, and impulse triggers. 
-
-### The Core Problem Statement
-Traditional retail analytics often relies on siloed, single-item velocity metrics (e.g., top-selling products by volume). This creates severe operational blind spots:
-1. **Missed Bundling Opportunities**: Retailers fail to identify natural product affinities, missing out on multi-pack promotions that elevate Average Order Value (AOV).
-2. **Suboptimal Store Planograms**: Complementary goods are placed in distant aisles, increasing customer friction and reducing multi-item baskets.
-3. **Ineffective Cross-Sell Recommendations**: E-commerce platforms display generic "popular items" rather than context-aware complementary additions during checkout.
-4. **Supply Chain Desynchronization**: Stockouts in primary items (e.g., tea sets) inadvertently kill demand for unsponsored complementary items (e.g., saucers).
-
-### The Machine Learning Solution
-This project establishes an **end-to-end, unsupervised machine learning platform** for **Market Basket Analysis (MBA)**. By converting high-volume point-of-sale logs into affinity graphs and association rules, the system extracts high-confidence, actionable behavioral rules that directly inform inventory placement, marketing promotions, dynamic bundling, and real-time recommendation engines.
+| Project Metadata Field | Value / Description |
+| :--- | :--- |
+| **Project Title** | BIT Project: Machine Learning-Based Market Basket Analysis & Affinity Mining Platform |
+| **Institution** | Birla Institute of Technology (BIT) |
+| **Department** | Department of Computer Science & Engineering |
+| **Academic Focus** | Data Mining, Unsupervised Machine Learning, Enterprise Retail Analytics |
+| **Primary Dataset** | `DataSet.csv` (Enlarged enterprise retail corpus derived from the UCI Machine Learning Repository - Online Retail II) |
+| **Dataset Scale** | **1,041,909 raw records**; **756,097 validated records** post-hygiene |
+| **Core Algorithms** | Apriori (Level-wise Breadth-First Search) & FP-Growth (Frequent Pattern Tree Divide-and-Conquer) |
+| **Technology Stack** | Python 3.14, Streamlit 1.67, Pandas 2.2+, NumPy, MLxtend 0.23+, Plotly, Altair |
+| **Repository URL** | [GitHub: BIT-project-ML-based-Market-Basket-Analysis](https://github.com/shikhar-gangwar/BIT-project-ML-based-Market-Basket-Analysis) |
 
 ---
 
-## 2. Theoretical & Mathematical Foundations of Association Rule Mining
+## 2. Project Motivation & Enterprise Business Context
 
-Association Rule Mining operates over a transaction database $D = \{T_1, T_2, \dots, T_n\}$, where each transaction $T_i$ is a subset of the universal item catalog $I = \{i_1, i_2, \dots, i_m\}$. An **association rule** is an implication of the form:
+In contemporary omni-channel retail and e-commerce ecosystems, understanding **cross-product purchasing affinity** is the single highest leverage point for maximizing customer lifetime value and Average Order Value (AOV). 
+
+When consumers make purchase decisions, items in their baskets are rarely independent. Instead, purchases reflect underlying consumer motivations—such as culinary recipes, interior design aesthetic coordination, complementary utility, and seasonal holiday gifts.
+
+### 2.1 The Core Retail Problem Statement
+Conventional retail management systems frequently suffer from **siloed single-item velocity metrics** (e.g., analyzing top-selling products in isolation). This narrow approach creates severe operational and commercial blind spots:
+1. **Missed Bundling Revenues**: Retailers fail to recognize natural affinities, missing opportunities to package complementary products into high-margin multi-packs.
+2. **Suboptimal Physical Planograms**: Complementary goods are placed in separate aisles, increasing shopping friction and lowering basket density.
+3. **Ineffective Digital Cross-Selling**: E-commerce platforms display generic "popular products" rather than context-aware complementary recommendations during checkout.
+4. **Supply Chain Inventory Desynchronization**: A stockout in an anchor product (e.g., a teacup) inadvertently destroys customer demand for unsponsored complementary items (e.g., saucers).
+
+### 2.2 The Machine Learning Solution
+This project delivers a **production-ready, unsupervised machine learning platform** for Market Basket Analysis (MBA). By ingesting over 1 million retail transactions, transforming them into high-density boolean matrices, and mining frequent itemsets and association rules, the platform reveals high-confidence behavioral patterns that directly empower retail decision-makers.
+
+---
+
+## 3. Mathematical Foundations of Association Rule Mining
+
+Association Rule Mining operates over a transaction universe $D = \{T_1, T_2, \dots, T_n\}$, where each transaction $T_i$ represents a subset of items selected from the universal catalog $I = \{i_1, i_2, \dots, i_m\}$. 
+
+An **association rule** is formally defined as an implication of the form:
 
 $$X \implies Y$$
 
-where $X, Y \subset I$ are disjoint itemsets ($X \cap Y = \emptyset$). $X$ is termed the **Antecedent** (the condition or premise), and $Y$ is termed the **Consequent** (the predicted outcome).
+where $X, Y \subset I$ and $X \cap Y = \emptyset$. The itemset $X$ is termed the **Antecedent** (the condition or premise), and $Y$ is termed the **Consequent** (the predicted outcome).
 
-The significance, reliability, and economic value of a rule are quantified using five core mathematical metrics:
+The statistical significance, predictive reliability, and economic value of an extracted rule are evaluated across five mathematical metrics:
 
 ---
 
-### 2.1 Support (Frequency & Generality)
-Support measures how frequently a given itemset or rule appears across the entire corpus of transactions $D$:
+### 3.1 Support (Joint Frequency & Catalog Coverage)
+Support quantifies the prevalence of an itemset or rule across the entire transaction database $D$:
 
 $$\text{Support}(X) = \frac{\sigma(X)}{|D|} = P(X)$$
 
 $$\text{Support}(X \implies Y) = \text{Support}(X \cup Y) = \frac{\sigma(X \cup Y)}{|D|} = P(X \cap Y)$$
 
-where $\sigma(X) = |\{T \in D \mid X \subseteq T\}|$ denotes the absolute frequency count. 
+where $\sigma(X) = |\{T \in D \mid X \subseteq T\}|$ denotes the absolute frequency count of itemset $X$.
 
-- **Interpretation**: Support acts as a significance filter. A rule with negligible support (e.g., 0.0001%) may be pure noise, whereas high-support rules represent broad customer habits.
-
----
-
-### 2.2 Confidence (Conditional Probability & Reliability)
-Confidence measures the conditional probability that a basket contains $Y$ given that it already contains $X$:
-
-$$\textConfidence}(X \implies Y) = \frac{\text{Support}(X \cup Y)}{\text{Support}(X)} = \frac{P(X \cap Y)}{P(X)} = P(Y \mid X)$$
-
-- **Interpretation**: Confidence reflects rule reliability. A confidence of 0.85 means that 85% of shoppers who placed $X$ into their basket also purchased $Y$.
-- **Limitation**: Confidence alone can be deceptive if $Y$ is an overwhelmingly popular baseline item purchased by almost everyone (e.g., milk or bread). This necessitates the Lift metric.
+- **Interpretation**: Support serves as a statistical significance filter to eliminate spurious, one-off co-occurrences. A minimum support threshold ($\text{minsup}$) prevents the algorithm from overfitting to long-tail anomalies.
 
 ---
 
-### 2.3 Lift (Correlation & Independence Ratio)
-Lift measures the degree of statistical dependence between antecedent $X$ and consequent $Y$, normalized by their independent probabilities:
+### 3.2 Confidence (Conditional Probability & Predictive Reliability)
+Confidence measures the conditional likelihood that a transaction contains the consequent $Y$, given that it contains the antecedent $X$:
+
+$$\text{Confidence}(X \implies Y) = \frac{\text{Support}(X \cup Y)}{\text{Support}(X)} = \frac{P(X \cap Y)}{P(X)} = P(Y \mid X)$$
+
+- **Interpretation**: Confidence represents directional rule reliability. For example, a confidence of $0.926$ indicates that $92.6\%$ of all customer baskets containing product $X$ also contained product $Y$.
+- **Inherent Limitation**: Confidence alone does not account for the baseline popularity of $Y$. If $Y$ is present in $90\%$ of all transactions regardless of $X$, a high confidence score is trivial and uninformative. This necessitates the Lift metric.
+
+---
+
+### 3.3 Lift (Correlation & Departure from Independence)
+Lift quantifies the strength of an association rule relative to the expected co-occurrence under the hypothesis of statistical independence:
 
 $$\text{Lift}(X \implies Y) = \frac{\text{Confidence}(X \implies Y)}{\text{Support}(Y)} = \frac{P(X \cap Y)}{P(X) \times P(Y)}$$
 
-- **$\text{Lift} = 1$**: $X$ and $Y$ are statistically independent ($P(X \cap Y) = P(X)P(Y)$). Purchasing $X$ has zero effect on purchasing $Y$.
-- **$\text{Lift} > 1$**: Positive association. The presence of $X$ significantly accelerates the probability of purchasing $Y$ (complementary items).
-- **$\text{Lift} < 1$**: Negative association / Cannibalization. Purchasing $X$ decreases the probability of purchasing $Y$ (substitute items).
+- **$\text{Lift} = 1$**: $X$ and $Y$ are statistically independent ($P(X \cap Y) = P(X)P(Y)$). The presence of $X$ provides zero predictive value regarding $Y$.
+- **$\text{Lift} > 1$**: Positive correlation. Purchasing $X$ significantly accelerates the likelihood of purchasing $Y$ (complementary goods).
+- **$\text{Lift} < 1$**: Negative correlation / Substitution. Purchasing $X$ reduces the likelihood of purchasing $Y$ (competing alternatives or cannibalization).
 
 ---
 
-### 2.4 Leverage (Absolute Margin of Affinity)
-Leverage calculates the absolute difference between observed joint occurrence and expected joint occurrence under complete independence:
+### 3.4 Leverage (Absolute Empirical Affinity Margin)
+Leverage calculates the absolute difference between the observed joint probability of $X$ and $Y$ and their expected joint probability if they were completely independent:
 
 $$\text{Leverage}(X \implies Y) = \text{Support}(X \cup Y) - \big(\text{Support}(X) \times \text{Support}(Y)\big)$$
 
-- **Interpretation**: Leverage ranges from $[-0.25, 0.25]$. While Lift is relative, Leverage reveals the absolute volume of transactions generated specifically by the synergy between $X$ and $Y$.
+- **Interpretation**: While Lift represents a relative ratio, Leverage measures the absolute volume of transactions generated specifically by the affinity between $X$ and $Y$. It is bounded within the interval $[-0.25, 0.25]$.
 
 ---
 
-### 2.5 Conviction (Directional Dependency & Error Ratio)
-Conviction measures the ratio of the expected frequency that $X$ occurs without $Y$ if the rule were purely coincidental, divided by the observed frequency of incorrect predictions:
+### 3.5 Conviction (Directional Dependency & Error Reduction)
+Conviction measures the ratio of the expected frequency that $X$ occurs without $Y$ under independence, divided by the observed frequency of erroneous predictions:
 
 $$\text{Conviction}(X \implies Y) = \frac{1 - \text{Support}(Y)}{1 - \text{Confidence}(X \implies Y)} = \frac{P(X)P(\neg Y)}{P(X \cap \neg Y)}$$
 
-- **Interpretation**: Unlike Lift (which is symmetric), Conviction is directional. A conviction approaching $\infty$ indicates that the consequent $Y$ is never seen without antecedent $X$ (deterministic rule).
+- **Interpretation**: Unlike Lift (which is symmetric, $\text{Lift}(X \implies Y) = \text{Lift}(Y \implies X)$), Conviction is strictly directional. A conviction score approaching $\infty$ indicates an invariant rule where $X$ is never observed without $Y$.
 
 ---
 
-## 3. Deep Dive into Mining Algorithms
+## 4. Algorithmic Engineering & Comparative Mechanics
 
-The computational core of the system implements and compares two primary algorithmic paradigms:
+The analytical core of the platform implements and directly benchmarks two foundational unsupervised data mining algorithms:
 
 ```mermaid
 flowchart TD
-    D["Transaction Dataset D"] --> Enc["One-Hot Boolean Matrix"]
-    Enc --> A["Apriori Engine (BFS)"]
-    Enc --> FP["FP-Growth Engine (DFS / Tree)"]
+    D["Cleaned Transaction Database D<br/>(19,788 Invoices x 3,877 SKUs)"] --> Enc["Sparse One-Hot Matrix Transformation"]
+    Enc --> A["Apriori Algorithm (BFS)"]
+    Enc --> FP["FP-Growth Algorithm (Tree DFS)"]
     
-    subgraph Apriori
-        A1["Pass 1: Find L1"] --> A2["Candidate Generation C_k"]
-        A2 --> A3["Prune via Anti-Monotonicity"]
-        A3 --> A4["Scan DB to Verify Support"]
-        A4 --> A5{"C_k Empty?"}
-        A5 -- No --> A2
-        A5 -- Yes --> ARules["Generate Rules from L"]
+    subgraph Apriori Architecture
+        A1["Database Scan 1: Compute Support for C1"] --> A2["Prune Infrequent Items -> L1"]
+        A2 --> A3["Candidate Generation C_k (Join Step L_k-1 ⋈ L_k-1)"]
+        A3 --> A4["Anti-Monotonicity Pruning"]
+        A4 --> A5["Full Database Scan to Tally Counts"]
+        A5 --> A6{"C_k is Empty?"}
+        A6 -- No --> A3
+        A6 -- Yes --> AR["Extract Association Rules from L"]
     end
 
-    subgraph FPGrowth
-        FP1["Pass 1: Frequency Ordering"] --> FP2["Pass 2: Build Prefix FP-Tree"]
-        FP2 --> FP3["Header Table & Node Links"]
-        FP3 --> FP4["Mine Conditional Pattern Bases"]
-        FP4 --> FP5["Recursive Conditional FP-Trees"]
-        FP5 --> FPRules["Generate Rules from Itemsets"]
+    subgraph FP-Growth Architecture
+        FP1["Database Scan 1: Compute Item Frequencies"] --> FP2["Sort Frequent 1-Items in Header Table"]
+        FP2 --> FP3["Database Scan 2: Construct In-Memory FP-Tree"]
+        FP3 --> FP4["Trace Conditional Pattern Bases (CPB)"]
+        FP4 --> FP5["Construct Conditional FP-Trees Recursively"]
+        FP5 --> FPR["Extract Association Rules Directly"]
     end
 ```
 
 ---
 
-### 3.1 The Apriori Algorithm (Level-Wise Breadth-First Search)
-Pioneered by Agrawal and Srikant (1994), Apriori relies on the **Anti-Monotonicity Property** (the Apriori Principle):
+### 4.1 The Apriori Algorithm (Level-Wise Breadth-First Search)
+Formulated by Agrawal and Srikant (1994), Apriori leverages the **Anti-Monotonicity Property** (the Apriori Principle):
 
 > *"Any subset of a frequent itemset must also be frequent; conversely, any superset of an infrequent itemset cannot be frequent."*
 
 $$\forall A, B \subset I : (A \subseteq B \land \text{Support}(A) < \text{minsup}) \implies \text{Support}(B) < \text{minsup}$$
 
-#### Operational Mechanics
-1. **Pass 1 ($k=1$)**: Scan the database to count support for all individual items $C_1$. Prune items below $\text{minsup}$ to produce frequent 1-itemsets $L_1$.
-2. **Candidate Generation ($C_k$)**: Generate candidate $k$-itemsets from $L_{k-1}$ using the join operation $L_{k-1} \Join L_{k-1}$, ensuring the first $k-2$ items match.
-3. **Pruning Step**: Discard candidates in $C_k$ where any $(k-1)$-subset is not in $L_{k-1}$.
-4. **Database Scan**: Scan the database to determine exact counts for candidates in $C_k$.
-5. **Termination**: Repeat until no new candidates can be formed.
+#### Operational Pipeline
+1. **Pass 1 ($k=1$)**: Scan the database to determine frequency counts for all single items $C_1$. Prune items with $\text{Support} < \text{minsup}$ to produce frequent 1-itemsets $L_1$.
+2. **Candidate Generation ($C_k$)**: Generate candidate $k$-itemsets from $L_{k-1}$ using the join operation $L_{k-1} \Join L_{k-1}$, ensuring the first $k-2$ elements match lexicographically.
+3. **Pruning Step**: Evaluate all $(k-1)$-subsets of each candidate in $C_k$. If any subset is absent from $L_{k-1}$, discard the candidate immediately without querying disk.
+4. **Database Scan**: Scan the physical transaction records to compute exact support counts for all remaining candidates in $C_k$.
+5. **Termination**: Repeat iteratively until candidate set $C_{k+1} = \emptyset$.
 
-#### Complexity & Limitations
-- **Time Complexity**: Worst-case $O(2^{|I|} \cdot |D|)$. If an itemset has length $k$, Apriori must generate $\sum_{i=1}^k \binom{k}{i} = 2^k - 1$ candidates.
-- **I/O Bottleneck**: Requires $k_{\max}$ full passes over the physical database, creating major computational latency on large disks.
+#### Computational Bottlenecks
+- **Combinatorial Explosion**: If a transaction contains $d$ items, generating candidates requires up to $O(2^d)$ subset evaluations.
+- **Excessive Disk I/O**: Requires $k_{\max}$ exhaustive linear scans over the entire database, leading to severe latency on multi-million row enterprise corpora.
 
 ---
 
-### 3.2 The FP-Growth Algorithm (Divide-and-Conquer Prefix Tree)
-Proposed by Han, Pei, and Yin (2000), **Frequent Pattern Growth (FP-Growth)** eliminates candidate generation entirely by compressing the database into an in-memory **FP-Tree**.
+### 4.2 The FP-Growth Algorithm (Divide-and-Conquer Prefix Tree)
+Introduced by Han, Pei, and Yin (2000), **Frequent Pattern Growth (FP-Growth)** completely bypasses candidate generation by compressing transaction data into an in-memory prefix tree structure termed the **FP-Tree**.
 
-#### Data Structure Anatomy
-1. **Header Table**: Contains all frequent 1-items sorted in descending frequency order, with head-of-line pointers linking to their first appearance in the tree.
-2. **FP-Tree Nodes**: Each tree node stores `item_id`, `count`, a `parent_pointer`, and a `node_link` connecting identical items across different tree branches.
+#### Structural Components
+1. **Header Table**: Maintains a sorted list of frequent 1-items in descending order of global frequency, with head-of-line pointers linking to the first occurrence of each item in the tree.
+2. **FP-Tree Nodes**: Each tree node encapsulates `item_id`, an integer `frequency_counter`, a `parent_pointer`, and a `node_link` connecting identical items across different tree branches.
 
-#### Operational Mechanics
-1. **Pass 1**: Scan database once to find frequent 1-items and sort them by descending frequency order.
-2. **Pass 2 (Tree Construction)**: Scan database a second time. For each transaction, filter infrequent items, sort items in descending frequency order, and insert the path into the FP-Tree. Shared prefixes overlap, drastically compressing transaction storage.
+#### Operational Pipeline
+1. **Pass 1**: Scan the database once to tally 1-item support counts. Prune infrequent items and sort frequent items in descending order of frequency.
+2. **Pass 2 (Tree Construction)**: Scan the database a second time. For each transaction, filter infrequent items, sort the remaining items according to global frequency order, and insert the path into the FP-Tree. Shared prefixes overlap directly, compressing transaction data.
 3. **Mining via Conditional Pattern Bases (CPB)**:
-   - For each item in the header table (starting from the least frequent), traverse backwards using parent pointers to collect its **Conditional Pattern Base** (paths ending with that item).
-   - Construct a smaller **Conditional FP-Tree** from the pattern base.
-   - Recursively mine the conditional tree to extract all frequent patterns.
+   - For each item in the header table (beginning from the lowest frequency item to preserve bottom-up ordering), trace parent pointers to assemble its **Conditional Pattern Base** (the prefix subpaths ending with that item).
+   - Build a localized **Conditional FP-Tree** from the pattern base.
+   - Recursively mine the conditional tree to extract all frequent patterns without candidate enumeration.
 
-#### Algorithmic Advantages
-- **Only 2 Database Passes**: Drastically cuts disk I/O.
-- **Zero Candidate Generation**: No combinatorial explosion.
-- **Compact In-Memory Footprint**: Exploits high prefix overlap across retail baskets.
+#### Empirical Advantages
+- **Maximum 2 Database Scans**: Eliminates repeated disk I/O passes.
+- **Zero Candidate Generation**: Avoids the $O(2^d)$ combinatorial candidate overhead.
+- **Significant RAM Efficiency**: Prefix path compression minimizes memory allocation on high-density retail datasets.
 
 ---
 
-## 4. End-to-End System Architecture
+## 5. End-to-End System Architecture
 
 ```mermaid
 graph LR
-    subgraph Data Layer
-        CSV["DataSet.csv<br/>(1,041,909 Rows)"] --> Cleaner["Preprocessing Pipeline<br/>(Deduplicate, Filter Returns, Sanitize)"]
-        Cleaner --> Matrix["Sparse One-Hot<br/>Transaction Matrix"]
+    subgraph Data Processing Layer
+        RAW["DataSet.csv<br/>(1,041,909 Rows)"] --> PRE["Data Preprocessing Engine<br/>(Filter Returns, Sanitize, Deduplicate)"]
+        PRE --> CLEAN["Cleaned Transaction Store<br/>(756,097 Rows / 19,788 Baskets)"]
+        CLEAN --> MAT["Boolean Sparse One-Hot Matrix<br/>(19,788 x 3,877)"]
     end
 
-    subgraph Analytics & ML Engine
-        Matrix --> Engine["Rule Mining Engine<br/>(Apriori & FP-Growth)"]
-        Engine --> Cache["Streamlit @st.cache_data<br/>Memory Layer"]
+    subgraph Analytical Core & Caching Layer
+        MAT --> MINER["Rule Mining Engine<br/>(Apriori & FP-Growth)"]
+        MINER --> CACHE["Streamlit @st.cache_data<br/>In-Memory Session Cache"]
     end
 
-    subgraph Presentation & UI Layer
-        Cache --> Dashboard["Interactive Streamlit Web Dashboard"]
-        Dashboard --> Overview["1. Executive Overview & KPIs"]
-        Dashboard --> Upload["2. Custom Dataset Upload"]
-        Dashboard --> Prep["3. Preprocessing Diagnostics"]
-        Dashboard --> EDA["4. Interactive EDA & Distributions"]
-        Dashboard --> Rules["5. Association Rule Mining Studio"]
-        Dashboard --> Comp["6. Algorithmic Performance Benchmarks"]
+    subgraph User Experience & Interactive Dashboard
+        CACHE --> UI["Streamlit Interactive Web Platform"]
+        UI --> M1["Module 1: Dashboard / Overview"]
+        UI --> M2["Module 2: Dataset Upload & Inspection"]
+        UI --> M3["Module 3: Preprocessing Diagnostics"]
+        UI --> M4["Module 4: Exploratory Data Analysis"]
+        UI --> M5["Module 5: Association Rule Mining Studio"]
+        UI --> M6["Module 6: Algorithm Benchmarking"]
     end
 ```
 
-### 4.1 Data Cleaning & Hygiene Protocols
-1. **Invoice Type Separation**: Invoices starting with the prefix `'C'` (credit notes/cancellations) are isolated from purchase transactions.
-2. **Quantity and Unit Price Sanitization**: Rows with $\text{Quantity} \le 0$ or $\text{UnitPrice} \le 0$ (damages, write-offs, system administrative records) are removed.
-3. **Noise SKU Elimination**: Non-merchandise stock codes (`POST`, `D`, `M`, `BANK CHARGES`, `AMAZONFEE`) are flagged to prevent false rules.
-4. **Description Normalization**: Trim whitespace, uppercase strings, and unify duplicate descriptions with differing casing.
+### 5.1 Data Cleaning & Sanitation Protocol
+1. **Cancellation & Return Segregation**: Invoices bearing the prefix `'C'` (credit adjustments and customer returns) are isolated to prevent skewing purchase affinity.
+2. **Numerical Validation**: Transactions with $\text{Quantity} \le 0$ or $\text{UnitPrice} \le 0$ (damages, stock reconciliations, administrative entries) are removed.
+3. **Noise SKU Elimination**: Non-merchandise line items (e.g., `POST`, `D`, `M`, `BANK CHARGES`, `AMAZONFEE`) are filtered out.
+4. **Description Normalization**: Whitespace is trimmed, text is unified to uppercase, and trailing punctuation is standardized to prevent duplicate representations of identical SKUs.
 
-### 4.2 Streamlit Web Application Modules
-- **Modular Architecture**: Built using a sleek, single-page application structure with pure black styling (`#000000`), custom responsive navigation, and accessible expand/collapse side rails.
-- **State Preservation**: Dynamic parameter exploration (support sliders, confidence sliders, metric pickers) re-evaluates rules instantaneously via cached memory state without re-parsing raw disks.
+### 5.2 UI/UX Engineering & Dual-State Navigation Architecture
+The web platform incorporates a modern, dark-themed UI engineered with pure black (`#000000`) surfaces, glassmorphic cards, and responsive navigation:
 
----
-
-## 5. Technology Stack & Environment
-
-| Component | Library / Framework | Version | Purpose |
-| :--- | :--- | :--- | :--- |
-| **Language** | Python | `3.14.0` | Core computational runtime |
-| **Machine Learning** | `mlxtend` | `0.23.4+` | Vectorized Apriori, FP-Growth, and Association Rule Mining |
-| **Data Processing** | `pandas`, `numpy` | `2.2.0+` | Matrix manipulation, vectorization, aggregation |
-| **Visualization** | `altair`, `plotly` | `5.0.0+` | Interactive 2D/3D scatter plots, network graphs, bar charts |
-| **Web Interface** | `streamlit` | `1.67.0` | Production reactive UI, session state, caching |
+- **Dual-State Collapsible Navigation Rail**:
+  - **Expanded State (`295px`)**: Displays macOS-style status dots, branded basket icon, full module titles, enlarged `1.65rem` leading icons, generous spacing, and the bottom Data Engine Status card.
+  - **Collapsed Icon Rail (`78px`)**: Reduces the sidebar to an interactive icon rail where navigation icons (`📊`, `📂`, `⚙️`, `📈`, `🔍`, `⚡`) remain **100% visible, centered, and directly clickable**.
+  - **Floating Hover Tooltips**: In collapsed mode, hovering over any icon reveals an instant dark popover badge to the right indicating the module title.
+  - **Featurable Action Controls**: Contains an active `⚡ Reload Data Engine` control that clears `@st.cache_data` in-memory state and re-indexes the dataset from disk.
+- **Native Radio Bullet Elimination**: Standard HTML radio buttons and indicator circles are removed via CSS targeting Streamlit 1.67 React Aria internals (`[data-testid="stRadioOption"]`), presenting navigation as interactive modern cards.
 
 ---
 
-## 6. Future Architectural Roadmap
+## 6. Functional Module Breakdown
 
-1. **Distributed Mining with Spark**: Scale the FP-Growth engine using `pyspark.ml.fpm.FPGrowth` for multi-node cluster execution on transaction datasets exceeding $10^8$ records.
-2. **Temporal & Seasonal Rule Decay**: Integrate exponential time-decay weighting to discover seasonal affinities (e.g., Summer outdoor dining vs Winter holiday décor).
-3. **Graph Neural Network (GNN) Hybridization**: Train product embedding spaces (e.g., Node2Vec, GraphSAGE) using the mined affinity graph to recommend items across novel, unseen user sessions.
+1. **Dashboard / Overview**: High-level retail KPIs (gross revenue, transactions, customer count, SKU catalog count), revenue distributions, top 10 products, and basket size frequency distributions.
+2. **Dataset Upload**: Allows dynamic ingestion of custom external retail CSV files with automatic column schema validation, type inference, and instant preview.
+3. **Data Preprocessing**: Interactive diagnostics displaying pre- and post-cleaning attrition tables, missing value distributions, cancellation metrics, and price/quantity outlier bounds.
+4. **Exploratory Data Analysis (EDA)**: Pareto 80/20 sales velocity analysis, monthly revenue trajectories, basket item count distribution histograms, and geographic sales breakdowns across 38 global markets.
+5. **Association Rule Mining Studio**: Dynamic slider controls for $\text{Min Support}$ and $\text{Min Confidence}$, multi-metric sorting (Lift, Leverage, Conviction), tabular rule export, 2D/3D scatter plots, parallel coordinate flows, and network affinity graphs.
+6. **Algorithm Comparison**: Side-by-side empirical performance benchmarking between Apriori and FP-Growth, measuring execution time (seconds), peak memory consumption (MB), and scaling curve visualizations.
+
+---
+
+## 7. Future Architectural Roadmap
+
+1. **Distributed Computing via Apache Spark MLlib**: Transitioning the FP-Growth mining engine to `pyspark.ml.fpm.FPGrowth` to support horizontal scaling across cluster architectures for transaction volumes exceeding $10^8$ records.
+2. **Temporal & Seasonal Rule Decay**: Incorporating exponential time-decay factors into the support function to differentiate between evergreen purchase affinities and seasonal holiday trends.
+3. **Graph Neural Network (GNN) Hybridization**: Projecting mined association rules into dense product embeddings (via GraphSAGE / Node2Vec) to generate session-based recommendations for first-time visitors with limited transaction history.
